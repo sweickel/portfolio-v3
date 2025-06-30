@@ -1,5 +1,5 @@
-import type { Route } from "./+types/home";
-import Dashboard from "../dashboard/dashboard";
+import type { Route } from "./+types/about";
+import BlogComponent from "../blog/blog";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -8,6 +8,6 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-export default function Home() {
-  return <Dashboard />;
+export default function Blog() {
+  return <BlogComponent />;
 }

@@ -9,6 +9,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import Dashboard from "./dashboard/dashboard";
+import Navbar from "./navbar/navbar";
+import Footer from "./footer/footer";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -42,10 +45,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
+      <Navbar />
+      <main className="flex-1 pt-16 pb-16">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  // Suppress logging for unmatched routes like /.well-known/*
+  if (
+    isRouteErrorResponse(error) &&
+    typeof window !== 'undefined' &&
+    window.location.pathname.startsWith('/.well-known/')
+  ) {
+    // Render nothing or a minimal fragment for these requests
+    return null;
+  }
+
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack: string | undefined;
